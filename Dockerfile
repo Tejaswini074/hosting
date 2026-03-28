@@ -11,6 +11,7 @@ RUN npm run build
 FROM node:22-alpine as backend
 
 WORKDIR /app/backend
+COPY server/package*.json ./
 COPY server/ .
 RUN npm install
 

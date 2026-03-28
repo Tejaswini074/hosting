@@ -7,39 +7,22 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "https://your-app.onrender.com"
-];
+app.use(cors({ origin: "*", credentials: true }));
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-}));
-
+// routes
 app.get("/", (req, res) => {
-  res.send("Server is running ");
+  res.send("Server is running 🚀");
 });
 
 app.get("/api/msg", (req, res) => {
   res.json({ message: "Hello from VS code" });
 });
 
-app.get("/api/time", (req, res) => {
-  res.json({ time: new Date() });
-});
-
 app.get("/api/test", (req, res) => {
   res.json({ status: "OK" });
 });
 
+// error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong" });

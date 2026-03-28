@@ -24,12 +24,10 @@ app.use(cors({
   credentials: true
 }));
 
-// health route
 app.get("/", (req, res) => {
   res.send("Server is running 🚀");
 });
 
-// API routes
 app.get("/api/msg", (req, res) => {
   res.json({ message: "Hello from VS code" });
 });
@@ -38,7 +36,10 @@ app.get("/api/time", (req, res) => {
   res.json({ time: new Date() });
 });
 
-// error handler
+app.get("/api/test", (req, res) => {
+  res.json({ status: "OK" });
+});
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong" });

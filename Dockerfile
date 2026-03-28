@@ -32,6 +32,6 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # expose port
 EXPOSE 80
-
+ENV PORT=4000
 # start both nginx + backend
 CMD sh -c "node /app/backend/index.js & nginx -g 'daemon off;'"

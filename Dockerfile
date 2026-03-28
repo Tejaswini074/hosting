@@ -12,7 +12,7 @@ RUN npm run build
 # ---------- BACKEND ----------
 FROM node:22-alpine as server
 
-WORKDIR /app/backend
+WORKDIR /app/server
 COPY server/package*.json ./
 RUN npm install
 COPY server/ .
@@ -26,10 +26,10 @@ RUN apk add --no-cache nodejs npm
 ENV PORT=4000
 
 COPY --from=client /app/client/dist /usr/share/nginx/html
-COPY --from=server /app/backend /app/backend
+COPY --from=server /app/server /app/server
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
-CMD ["sh", "-c", "node /app/backend/index.js & nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "node /app/server/index.js & nginx -g 'daemon off;'"]

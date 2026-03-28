@@ -28,7 +28,8 @@ FROM nginx:alpine
 
 # install node for backend
 RUN apk add --no-cache nodejs npm
-
+# DEBUG: check nginx folder
+RUN ls -la /usr/share/nginx/html
 ENV PORT=4000
 
 # copy frontend build

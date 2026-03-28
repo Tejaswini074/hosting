@@ -3,9 +3,16 @@ FROM node:22-alpine as client
 
 WORKDIR /app/frontend
 COPY client/ .
+
 RUN npm install
+
+# DEBUG: show files
+RUN ls -la
+
 RUN npm run build
 
+# DEBUG: check dist folder
+RUN ls -la dist
 
 # ---------- BACKEND ----------
 FROM node:22-alpine as server

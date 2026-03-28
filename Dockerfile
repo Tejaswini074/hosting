@@ -1,18 +1,13 @@
 # ---------- FRONTEND BUILD ----------
 FROM node:22-alpine as client
 
-WORKDIR /app/frontend
-COPY client/ .
+WORKDIR /app
+COPY client ./client
 
+WORKDIR /app/client
 RUN npm install
-
-# DEBUG: show files
-RUN ls -la
-
 RUN npm run build
 
-# DEBUG: check dist folder
-RUN ls -la dist
 
 # ---------- BACKEND ----------
 FROM node:22-alpine as server
@@ -26,22 +21,15 @@ COPY server/ .
 # ---------- FINAL IMAGE ----------
 FROM nginx:alpine
 
-# install node for backend
 RUN apk add --no-cache nodejs npm
-# DEBUG: check nginx folder
-RUN ls -la /usr/share/nginx/html
+
 ENV PORT=4000
 
-# copy frontend build
-COPY --from=client /app/frontend/dist /usr/share/nginx/html
-
-# copy backend
+COPY --from=client /app/client/dist /usr/share/nginx/html
 COPY --from=server /app/backend /app/backend
 
-# copy nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
-# start backend + nginx
 CMD ["sh", "-c", "node /app/backend/index.js & nginx -g 'daemon off;'"]

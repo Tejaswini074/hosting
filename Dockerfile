@@ -1,22 +1,3 @@
-# ---------- FRONTEND BUILD ----------
-FROM node:22-alpine as client
-
-WORKDIR /app
-COPY client ./client
-
-WORKDIR /app/client
-RUN npm install
-RUN npm run build
-
-
-# ---------- BACKEND ----------
-FROM node:22-alpine as server
-
-WORKDIR /app/server
-COPY server/package*.json ./
-RUN npm install
-COPY server/ .
-
 
 # ---------- FINAL IMAGE ----------
 # ---------- FRONTEND BUILD ----------

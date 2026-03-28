@@ -9,18 +9,12 @@ app.use(morgan("dev"));
 
 app.use(cors({ origin: "*", credentials: true }));
 
-// routes
-// app.get("/", (req, res) => {
-//   res.send("Server is running 🚀");
-// });
+
 
 app.get("/api/msg", (req, res) => {
   res.json({ message: "Hello from VS code" });
 });
 
-app.get("/api/test", (req, res) => {
-  res.json({ status: "OK" });
-});
 
 // error handler
 app.use((err, req, res, next) => {
